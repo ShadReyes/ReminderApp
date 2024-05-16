@@ -1,4 +1,10 @@
-import { StyleSheet, ImageBackground, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  ImageBackground,
+  View,
+  Pressable,
+  Text,
+} from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import Animated, {
@@ -8,15 +14,23 @@ import Animated, {
 } from "react-native-reanimated";
 import { useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { Calendar } from "@/components/Calender";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { months, weekDays } from "@/constants/Dates";
+import { useCalenderContext } from "@/CalenderContext";
 
 export default function HomeScreen() {
+  const { selectedDate } = useCalenderContext();
+
   const isModalOpen = useRef(false);
   const modalHeight = useSharedValue(60);
   const chevronRotation = useSharedValue(0);
 
+  const safeArea = useSafeAreaInsets();
+
   const onOpenModal = () => {
     isModalOpen.current = true;
-    modalHeight.value = withTiming(90);
+    modalHeight.value = withTiming(95);
     chevronRotation.value = withTiming(180);
   };
 
@@ -42,9 +56,12 @@ export default function HomeScreen() {
     <View style={{ flex: 1 }}>
       <ImageBackground
         source={require("@/assets/images/backgroundImage.jpg")}
-        style={styles.reactLogo}
+        style={styles.backgroundImage}
         resizeMode="cover"
       >
+        <View style={{ marginTop: safeArea.top, marginHorizontal: 10 }}>
+          <Calendar />
+        </View>
         <Animated.View style={[rModalContainerStyle, styles.modalContainer]}>
           <Pressable
             onPress={() =>
@@ -53,12 +70,35 @@ export default function HomeScreen() {
             style={{ alignItems: "center" }}
           >
             <Animated.View style={rChevronStyle}>
-              <Ionicons
-                name={isModalOpen.current ? "chevron-down" : "chevron-up"}
-                size={32}
-                color="black"
-              />
+              <Ionicons name={"chevron-up"} size={32} color="black" />
             </Animated.View>
+          </Pressable>
+
+          <Text>
+            {weekDays[selectedDate.getDay()]}, {selectedDate.getDate()}{" "}
+            {months[selectedDate.getMonth()]} {selectedDate.getFullYear()}
+          </Text>
+
+          <Pressable
+            style={{
+              backgroundColor: "#CBB59E",
+              width: 60,
+              height: 60,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 9,
+              position: "absolute",
+              bottom: 60,
+              right: 20,
+              shadowOffset: {
+                height: 5,
+                width: 0,
+              },
+              shadowRadius: 5,
+              shadowOpacity: 0.3,
+            }}
+          >
+            <Ionicons name="add" size={30} color={"white"} />
           </Pressable>
         </Animated.View>
       </ImageBackground>
@@ -74,10 +114,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     width: "100%",
     bottom: 0,
-    // backgroundColor: "#d2d6d6",
     backgroundColor: "white",
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
+    shadowColor: "black",
+    shadowOffset: {
+      height: -5,
+      width: 0,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.1,
   },
   titleContainer: {
     flexDirection: "row",
@@ -88,7 +134,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  reactLogo: {
+  backgroundImage: {
     flex: 1,
   },
 });
