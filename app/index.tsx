@@ -18,9 +18,11 @@ import { Calendar } from "@/components/Calender";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { months, weekDays } from "@/constants/Dates";
 import { useCalenderContext } from "@/CalenderContext";
+import { dateToLongDateString } from "@/helpers/dateHelpers";
+import { observer } from "@legendapp/state/react";
 
-export default function HomeScreen() {
-  const { selectedDate } = useCalenderContext();
+const HomeScreen = observer(() => {
+  const calenderContext = useCalenderContext();
 
   const isModalOpen = useRef(false);
   const modalHeight = useSharedValue(60);
@@ -75,8 +77,7 @@ export default function HomeScreen() {
           </Pressable>
 
           <Text style={{ color: "#CBB59E" }}>
-            {weekDays[selectedDate.getDay()]}, {selectedDate.getDate()}{" "}
-            {months[selectedDate.getMonth()]} {selectedDate.getFullYear()}
+            {dateToLongDateString(calenderContext.selectedDate.get())}
           </Text>
 
           <Pressable
@@ -104,7 +105,9 @@ export default function HomeScreen() {
       </ImageBackground>
     </View>
   );
-}
+});
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   modalContainer: {

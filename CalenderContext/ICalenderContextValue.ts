@@ -1,9 +1,12 @@
+import {
+  ObservableComputed,
+  ObservableObject,
+  ObservablePrimitiveBaseFns,
+} from "@legendapp/state";
+
 export interface ICalenderContextValue {
-  currentYear: number;
-  setCurrentYear: (year: number) => void;
-  currentMonth: number;
-  setCurrentMonth: (month: number) => void;
-  selectedDate: Date;
-  setSelectedDate: (date: Date) => void;
-  currentFirstDay: number;
+  selectedYear: ObservablePrimitiveBaseFns<number>;
+  selectedMonth: ObservablePrimitiveBaseFns<number>;
+  selectedDate: ObservableObject<Date>;
+  currentFirstDay: ObservableComputed<number>;
 }

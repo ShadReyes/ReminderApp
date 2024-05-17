@@ -1,30 +1,29 @@
 import { useEffect, useState } from "react";
 import { ICalenderContextValue } from "./ICalenderContextValue";
+import { useObservable } from "@legendapp/state/react";
+import { computed } from "@legendapp/state";
 
 export const CalenderContextValue = (): ICalenderContextValue => {
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const selectedYear = useObservable<number>(new Date().getFullYear());
+  const selectedMonth = useObservable<number>(new Date().getMonth());
 
-  const [selectedDate, setSelectedDate] = useState(
-    new Date(currentYear, currentMonth, new Date().getDay())
+  const selectedDate = useObservable<Date>(
+    new Date(selectedYear.peek(), selectedMonth.peek(), new Date().getDate())
   );
 
-  const currentFirstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const currentFirstDay = computed(() =>
+    new Date(selectedYear.get(), selectedMonth.get(), 1).getDay()
+  );
 
-  useEffect(() => {
-    setSelectedDate(new Date(currentYear, currentMonth, new Date().getDate()));
-    console.log("Selected Date: ", selectedDate);
-  }, [currentYear, currentMonth]);
-
-  console.log("Current Year: ", currentYear);
+  // useEffect(() => {
+  //   setSelectedDate(new Date(currentYear, currentMonth, new Date().getDate()));
+  //   console.log("Selected Date: ", selectedDate);
+  // }, [currentYear, currentMonth]);
 
   return {
-    currentYear,
-    setCurrentYear,
-    currentMonth,
-    setCurrentMonth,
+    selectedYear,
+    selectedMonth,
     selectedDate,
-    setSelectedDate,
     currentFirstDay,
   };
 };
