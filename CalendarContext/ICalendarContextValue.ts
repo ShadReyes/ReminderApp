@@ -4,7 +4,7 @@ import {
   ObservablePrimitiveBaseFns,
 } from "@legendapp/state";
 
-export interface ICalenderContextValue {
+export interface ICalendarContextValue {
   selectedYear: ObservablePrimitiveBaseFns<number>;
   selectedMonth: ObservablePrimitiveBaseFns<number>;
   selectedDate: ObservableObject<Date>;

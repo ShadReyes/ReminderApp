@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 
-interface ICalenderGridProps {
+interface ICalendarGridProps {
   numberOfDays: number;
   firstDayOfMonth: number;
   prevMonthLastDay: number;
@@ -10,12 +10,12 @@ interface ICalenderGridProps {
   setSelectedDate: (date: Date) => void;
 }
 
-export const CalenderGrid = (props: ICalenderGridProps) => {
+export const CalendarGrid = (props: ICalendarGridProps) => {
   return (
     <View style={{ flexWrap: "wrap", flexDirection: "row" }}>
       {Array.from({ length: props.firstDayOfMonth }, (_, i) => i + 1).map(
         (day, index) => (
-          <CalenderGridItem
+          <CalendarGridItem
             key={`prev-month-${day}`}
             value={props.prevMonthLastDay - (props.firstDayOfMonth - index - 1)}
             textColor="gray"
@@ -25,7 +25,7 @@ export const CalenderGrid = (props: ICalenderGridProps) => {
       )}
       {Array.from({ length: props.numberOfDays }, (_, i) => i + 1).map(
         (day) => (
-          <CalenderGridItem
+          <CalendarGridItem
             key={`prev-month-${day}`}
             value={day}
             isSelected={isSelectedDate(
@@ -59,14 +59,14 @@ const isSelectedDate = (
   );
 };
 
-interface ICalenderGridItemProps {
+interface ICalendarGridItemProps {
   value?: number;
   textColor?: string;
   isSelected: boolean;
   setSelectedDate?: () => void;
 }
 
-const CalenderGridItem = (props: ICalenderGridItemProps) => {
+const CalendarGridItem = (props: ICalendarGridItemProps) => {
   return (
     <View
       style={{

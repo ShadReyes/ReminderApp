@@ -1,21 +1,21 @@
 import { IReminder, Reminder } from "@/models/Reminder";
 import { MMKV } from "react-native-mmkv";
 
-const calenderStorage = new MMKV({ id: "caledender" });
+const calendarStorage = new MMKV({ id: "caledender" });
 const baseKeyValue = "Reminder";
 
-export class CalenderStorageService {
+export class CalendarStorageService {
   public saveReminder(date: Date, newReminder: IReminder) {
     const reminders: Reminder[] = this.getReminders(date) ?? [];
     reminders.push(new Reminder(newReminder));
 
     const jsonString = JSON.stringify(reminders);
 
-    calenderStorage.set(getDateStringKey(date), jsonString);
+    calendarStorage.set(getDateStringKey(date), jsonString);
   }
 
   public getReminders(date: Date): Reminder[] | null {
-    const jsonString = calenderStorage.getString(getDateStringKey(date));
+    const jsonString = calendarStorage.getString(getDateStringKey(date));
 
     if (!jsonString) {
       return null;

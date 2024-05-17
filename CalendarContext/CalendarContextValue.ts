@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { ICalenderContextValue } from "./ICalenderContextValue";
+import { ICalendarContextValue } from "./ICalendarContextValue";
 import { useObservable } from "@legendapp/state/react";
 import { computed } from "@legendapp/state";
 
-export const CalenderContextValue = (): ICalenderContextValue => {
+export const CalendarContextValue = (): ICalendarContextValue => {
   const selectedYear = useObservable<number>(new Date().getFullYear());
   const selectedMonth = useObservable<number>(new Date().getMonth());
 

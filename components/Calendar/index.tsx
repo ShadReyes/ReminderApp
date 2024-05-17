@@ -1,14 +1,14 @@
 import { Pressable, Text, View } from "react-native";
 import { HStack } from "../HStack";
-import { CalenderGrid } from "./CalenderGrid";
+import { CalendarGrid } from "./CalendarGrid";
 import { months, nDays, weekDays } from "@/constants/Dates";
-import { useCalenderContext } from "@/CalenderContext";
+import { useCalendarContext } from "@/CalendarContext";
 import { Ionicons } from "@expo/vector-icons";
 import { MenuView } from "@react-native-menu/menu";
 import { observer } from "@legendapp/state/react";
 
 export const Calendar = observer(() => {
-  const calenderContext = useCalenderContext();
+  const calendarContext = useCalendarContext();
 
   return (
     <View style={{ alignContent: "center" }}>
@@ -22,7 +22,7 @@ export const Calendar = observer(() => {
             marginRight: 10,
           }}
         >
-          {months[calenderContext.selectedMonth.get()]}
+          {months[calendarContext.selectedMonth.get()]}
         </Text>
         <MenuView
           actions={Array.from({ length: 50 }, (_, i) => i + 2000).map(
@@ -31,12 +31,12 @@ export const Calendar = observer(() => {
             }
           )}
           onPressAction={(e) =>
-            calenderContext.selectedYear.set(Number(e.nativeEvent.event))
+            calendarContext.selectedYear.set(Number(e.nativeEvent.event))
           }
           style={{ flexDirection: "row", alignItems: "center" }}
         >
           <Text style={{ color: "white", fontSize: 20 }}>
-            {calenderContext.selectedYear.get()}
+            {calendarContext.selectedYear.get()}
           </Text>
           <Ionicons name="chevron-down" size={20} color="white" />
         </MenuView>
@@ -64,14 +64,14 @@ export const Calendar = observer(() => {
           marginVertical: 10,
         }}
       />
-      <CalenderGrid
-        numberOfDays={nDays[calenderContext.selectedMonth.get()]}
-        firstDayOfMonth={calenderContext.currentFirstDay.get()}
-        prevMonthLastDay={nDays[(calenderContext.selectedMonth.get() - 1) % 12]}
-        selectedMonth={calenderContext.selectedMonth.get()}
-        selectedYear={calenderContext.selectedYear.get()}
-        selectedDate={calenderContext.selectedDate.get()}
-        setSelectedDate={(date: Date) => calenderContext.selectedDate.set(date)}
+      <CalendarGrid
+        numberOfDays={nDays[calendarContext.selectedMonth.get()]}
+        firstDayOfMonth={calendarContext.currentFirstDay.get()}
+        prevMonthLastDay={nDays[(calendarContext.selectedMonth.get() - 1) % 12]}
+        selectedMonth={calendarContext.selectedMonth.get()}
+        selectedYear={calendarContext.selectedYear.get()}
+        selectedDate={calendarContext.selectedDate.get()}
+        setSelectedDate={(date: Date) => calendarContext.selectedDate.set(date)}
       />
     </View>
   );

@@ -14,15 +14,15 @@ import Animated, {
 } from "react-native-reanimated";
 import { useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Calendar } from "@/components/Calender";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { months, weekDays } from "@/constants/Dates";
-import { useCalenderContext } from "@/CalenderContext";
+import { useCalendarContext } from "@/CalendarContext";
 import { dateToLongDateString } from "@/helpers/dateHelpers";
 import { observer } from "@legendapp/state/react";
+import { Calendar } from "@/components/Calendar";
 
 const HomeScreen = observer(() => {
-  const calenderContext = useCalenderContext();
+  const calendarContext = useCalendarContext();
 
   const isModalOpen = useRef(false);
   const modalHeight = useSharedValue(60);
@@ -77,7 +77,7 @@ const HomeScreen = observer(() => {
           </Pressable>
 
           <Text style={{ color: "#CBB59E" }}>
-            {dateToLongDateString(calenderContext.selectedDate.get())}
+            {dateToLongDateString(calendarContext.selectedDate.get())}
           </Text>
 
           <Pressable
