@@ -74,7 +74,7 @@ export default function HomeScreen() {
             </Animated.View>
           </Pressable>
 
-          <Text>
+          <Text style={{ color: "#CBB59E" }}>
             {weekDays[selectedDate.getDay()]}, {selectedDate.getDate()}{" "}
             {months[selectedDate.getMonth()]} {selectedDate.getFullYear()}
           </Text>

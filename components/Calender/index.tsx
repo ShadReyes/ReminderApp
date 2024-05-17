@@ -1,8 +1,10 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { HStack } from "../HStack";
 import { CalenderGrid } from "./CalenderGrid";
 import { months, nDays, weekDays } from "@/constants/Dates";
 import { useCalenderContext } from "@/CalenderContext";
+import { Ionicons } from "@expo/vector-icons";
+import { MenuView } from "@react-native-menu/menu";
 
 export const Calendar = () => {
   const {
@@ -11,20 +13,36 @@ export const Calendar = () => {
     selectedDate,
     setSelectedDate,
     currentFirstDay,
+    setCurrentYear,
   } = useCalenderContext();
 
   return (
     <View style={{ alignContent: "center" }}>
-      <Text
-        style={{
-          color: "white",
-          fontWeight: "500",
-          fontSize: 30,
-          textAlign: "center",
-        }}
-      >
-        {months[currentMonth]}
-      </Text>
+      <HStack style={{ justifyContent: "center", alignItems: "center" }}>
+        <Text
+          style={{
+            color: "white",
+            fontWeight: "500",
+            fontSize: 30,
+            textAlign: "center",
+            marginRight: 10,
+          }}
+        >
+          {months[currentMonth]}
+        </Text>
+        <MenuView
+          actions={Array.from({ length: 50 }, (_, i) => i + 2000).map(
+            (year) => {
+              return { title: year.toString() };
+            }
+          )}
+          onPressAction={(e) => setCurrentYear(Number(e.nativeEvent.event))}
+          style={{ flexDirection: "row", alignItems: "center" }}
+        >
+          <Text style={{ color: "white", fontSize: 20 }}>{currentYear}</Text>
+          <Ionicons name="chevron-down" size={20} color="white" />
+        </MenuView>
+      </HStack>
       <HStack style={{ justifyContent: "space-between" }}>
         {weekDays.map((day, index) => (
           <Text
