@@ -82,6 +82,10 @@ const HomeScreen = observer(() => {
             {dateToLongDateString(calendarContext.selectedDate.get())}
           </Text>
 
+          {calendarContext.selectedDateReminders.get().map((reminder) => (
+            <Text>{reminder.title}</Text>
+          ))}
+
           <Link asChild href="/NewReminderScreen">
             <AnimatedButton
               style={{

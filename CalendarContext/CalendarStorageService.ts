@@ -5,13 +5,13 @@ const calendarStorage = new MMKV({ id: "caledender" });
 const baseKeyValue = "Reminder";
 
 export class CalendarStorageService {
-  public saveReminder(date: Date, newReminder: IReminder) {
-    const reminders: Reminder[] = this.getReminders(date) ?? [];
+  public saveReminder(newReminder: IReminder) {
+    const reminders: Reminder[] = this.getReminders(newReminder.dateTime) ?? [];
     reminders.push(new Reminder(newReminder));
 
     const jsonString = JSON.stringify(reminders);
 
-    calendarStorage.set(getDateStringKey(date), jsonString);
+    calendarStorage.set(getDateStringKey(newReminder.dateTime), jsonString);
   }
 
   public getReminders(date: Date): Reminder[] | null {

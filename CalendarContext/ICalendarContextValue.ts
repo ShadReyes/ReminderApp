@@ -1,4 +1,6 @@
+import { IReminder, Reminder } from "@/models/Reminder";
 import {
+  ObservableArray,
   ObservableComputed,
   ObservableObject,
   ObservablePrimitiveBaseFns,
@@ -9,4 +11,6 @@ export interface ICalendarContextValue {
   selectedMonth: ObservablePrimitiveBaseFns<number>;
   selectedDate: ObservableObject<Date>;
   currentFirstDay: ObservableComputed<number>;
+  selectedDateReminders: ObservableArray<Reminder[]>;
+  saveReminder: (formData: IReminder) => void;
 }

@@ -6,6 +6,7 @@ import { useCalendarContext } from "@/CalendarContext";
 import { Ionicons } from "@expo/vector-icons";
 import { MenuView } from "@react-native-menu/menu";
 import { observer } from "@legendapp/state/react";
+import { LineDivider } from "../LineDivider";
 
 export const Calendar = observer(() => {
   const calendarContext = useCalendarContext();
@@ -57,13 +58,7 @@ export const Calendar = observer(() => {
           </Text>
         ))}
       </HStack>
-      <View
-        style={{
-          borderBottomColor: "white",
-          borderBottomWidth: 1,
-          marginVertical: 10,
-        }}
-      />
+      <LineDivider marginVertical={10} />
       <CalendarGrid
         numberOfDays={nDays[calendarContext.selectedMonth.get()]}
         firstDayOfMonth={calendarContext.currentFirstDay.get()}

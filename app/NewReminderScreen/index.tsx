@@ -1,11 +1,32 @@
 import { useCalendarContext } from "@/CalendarContext";
+import { AnimatedButton } from "@/components/AnimatedButton";
+import { LineDivider } from "@/components/LineDivider";
 import { dateToLongDateString } from "@/helpers/dateHelpers";
+import { IReminder } from "@/models/Reminder";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { useRef } from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 const newReminderScreen = () => {
   const calendarContext = useCalendarContext();
+
+  const formData = useRef<IReminder>({
+    title: "",
+    note: "",
+    dateTime: calendarContext.selectedDate.get(),
+  });
+
+  const onSaveReminder = () => {
+    console.log("Save reminder");
+    calendarContext.saveReminder(formData.current);
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -19,7 +40,13 @@ const newReminderScreen = () => {
             {dateToLongDateString(calendarContext.selectedDate.get())}
           </Text>
 
-          <View
+          <Text>Title</Text>
+          <TextInput
+            onChange={(e) => (formData.current.title = e.nativeEvent.text)}
+          />
+          <LineDivider color="black" />
+
+          <AnimatedButton
             style={{
               backgroundColor: "#CBB59E",
               justifyContent: "center",
@@ -37,11 +64,10 @@ const newReminderScreen = () => {
               paddingHorizontal: 25,
               paddingVertical: 15,
             }}
+            onPress={onSaveReminder}
           >
-            <Link href="/NewReminderScreen">
-              <Text style={{ fontSize: 20, color: "white" }}>Save</Text>
-            </Link>
-          </View>
+            <Text style={{ fontSize: 20, color: "white" }}>Save</Text>
+          </AnimatedButton>
         </View>
       </ImageBackground>
     </View>
