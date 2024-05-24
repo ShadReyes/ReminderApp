@@ -11,7 +11,7 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { CalendarContext } from "@/CalendarContext";
-import { ImageBackground, Text, View } from "react-native";
+import { Text } from "react-native";
 import { HStack } from "@/components/HStack";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -43,12 +43,6 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <CalendarContext>
-        {/* <View style={{ flex: 1 }}>
-          <ImageBackground
-            source={require("@/assets/images/backgroundImage.jpg")}
-            style={{ flex: 1 }}
-            resizeMode="cover"
-          > */}
         <Stack screenOptions={{ header: () => <Header title="Home" /> }}>
           <Stack.Screen
             name="index"
@@ -58,8 +52,6 @@ export default function RootLayout() {
           />
           <Stack.Screen name="+not-found" />
         </Stack>
-        {/* </ImageBackground>
-        </View> */}
       </CalendarContext>
     </ThemeProvider>
   );

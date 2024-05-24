@@ -5,9 +5,8 @@ import { LineDivider } from "@/components/LineDivider";
 import { MarginDivider } from "@/components/MarginDivider";
 import { dateToLongDateString } from "@/helpers/dateHelpers";
 import { IReminder } from "@/models/Reminder";
-import { Ionicons } from "@expo/vector-icons";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { useRef } from "react";
 import {
   ImageBackground,

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { ICalendarContextValue } from "./ICalendarContextValue";
 import { useObservable } from "@legendapp/state/react";
-import { ObservableBaseFns, computed } from "@legendapp/state";
+import { computed } from "@legendapp/state";
 import { IReminder, Reminder } from "@/models/Reminder";
 import { CalendarStorageService } from "./CalendarStorageService";
 

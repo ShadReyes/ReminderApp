@@ -12,6 +12,12 @@ export const dateToLongDateString = (date: Date): string => {
   });
 };
 
+/**
+ * Converts a date to a time string
+ * EX: "12:00 PM"
+ * @param date date to format
+ * @returns formatted time string
+ */
 export const getFormattedTime = (date: Date): string => {
   return date.toLocaleTimeString("en-US", {
     hour: "numeric",

@@ -5,8 +5,6 @@ import {
   Pressable,
   Text,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,7 +13,6 @@ import Animated, {
 import { useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { months, weekDays } from "@/constants/Dates";
 import { useCalendarContext } from "@/CalendarContext";
 import { dateToLongDateString, getFormattedTime } from "@/helpers/dateHelpers";
 import { observer } from "@legendapp/state/react";
