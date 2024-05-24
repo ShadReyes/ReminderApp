@@ -24,6 +24,7 @@ export const CalendarContextValue = (): ICalendarContextValue => {
   selectedDate.onChange(() => {
     const reminders = calendarStorageService.getReminders(selectedDate.get());
     if (!reminders) {
+      selectedDateReminders.set([]);
       return;
     }
     reminders.sort((a, b) => a.dateTime.getTime() - b.dateTime.getTime());
@@ -35,7 +36,11 @@ export const CalendarContextValue = (): ICalendarContextValue => {
 
     //Don't want to push date to selected date unless it is the same date.
     if (_doesDateMatchSelected(newReminder.dateTime)) {
-      selectedDateReminders.push(newReminder);
+      selectedDateReminders.set(
+        [...selectedDateReminders.peek(), newReminder].sort(
+          (a, b) => a.dateTime.getTime() - b.dateTime.getTime()
+        )
+      );
     }
 
     calendarStorageService.saveReminder(newReminder);
