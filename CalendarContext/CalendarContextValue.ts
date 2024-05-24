@@ -22,14 +22,12 @@ export const CalendarContextValue = (): ICalendarContextValue => {
   );
 
   selectedDate.onChange(() => {
-    console.log("Selected date changed");
     selectedDateReminders.set(
       calendarStorageService.getReminders(selectedDate.get()) ?? []
     );
   });
 
   const saveReminder = (formData: IReminder) => {
-    console.log("Save reminder");
     const newReminder = new Reminder(formData);
 
     //Don't want to push date to selected date unless it is the same date.
@@ -41,16 +39,18 @@ export const CalendarContextValue = (): ICalendarContextValue => {
   };
 
   const deleteReminder = (reminder: Reminder) => {
-    console.log("Delete reminder");
     const success = calendarStorageService.deleteReminder(reminder);
 
     if (!success) {
       return;
     }
 
-    const reminders = selectedDateReminders.peek();
+    const reminders = [...selectedDateReminders.peek()];
 
-    reminders.splice(selectedDateReminders.indexOf(reminder), 1);
+    reminders.splice(
+      selectedDateReminders.findIndex((r) => r.id == r.id),
+      1
+    );
 
     selectedDateReminders.set(reminders);
   };

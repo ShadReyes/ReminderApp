@@ -19,8 +19,6 @@ import {
 const newReminderScreen = () => {
   const calendarContext = useCalendarContext();
 
-  console.log("New reminder screen");
-
   const formData = useRef<IReminder>({
     title: "",
     note: "",
@@ -34,7 +32,6 @@ const newReminderScreen = () => {
   });
 
   const onSaveReminder = () => {
-    console.log("Save reminder");
     calendarContext.saveReminder(formData.current);
     router.back();
   };
@@ -42,7 +39,6 @@ const newReminderScreen = () => {
   const setDate = (date: Date | undefined) => {
     if (!date) return;
 
-    console.log("setDate", date);
     formData.current.dateTime.setFullYear(date.getFullYear());
     formData.current.dateTime.setMonth(date.getMonth());
     formData.current.dateTime.setDate(date.getDate());
@@ -50,7 +46,6 @@ const newReminderScreen = () => {
 
   const setTime = (time: Date | undefined) => {
     if (!time) return;
-    console.log("setTime", time);
     formData.current.dateTime.setHours(time.getHours());
     formData.current.dateTime.setMinutes(time.getMinutes());
   };
@@ -63,8 +58,8 @@ const newReminderScreen = () => {
         resizeMode="cover"
       >
         <View style={styles.modalContainer}>
-          <Text style={{ color: "#CBB59E" }}>
-            {dateToLongDateString(calendarContext.selectedDate.get())}
+          <Text style={{ color: "#CBB59E", textAlign: "center", fontSize: 20 }}>
+            New Reminder
           </Text>
 
           <MarginDivider margin={20} />
@@ -149,7 +144,7 @@ const newReminderScreen = () => {
 const styles = StyleSheet.create({
   modalContainer: {
     position: "absolute",
-    paddingTop: 8,
+    paddingTop: 20,
     paddingBottom: 8,
     paddingHorizontal: 16,
     width: "100%",

@@ -30,7 +30,7 @@ export class CalendarStorageService {
   }
   public deleteReminder(oldReminder: Reminder): boolean {
     const reminders: Reminder[] = this.getReminders(oldReminder.dateTime) ?? [];
-    const reminderToRemove = reminders.find((r) => r.id !== oldReminder.id);
+    const reminderToRemove = reminders.find((r) => r.id === oldReminder.id);
 
     if (!reminderToRemove) {
       return false;
