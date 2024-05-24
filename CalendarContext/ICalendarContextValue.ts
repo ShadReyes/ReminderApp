@@ -13,4 +13,5 @@ export interface ICalendarContextValue {
   currentFirstDay: ObservableComputed<number>;
   selectedDateReminders: ObservableArray<Reminder[]>;
   saveReminder: (formData: IReminder) => void;
+  deleteReminder: (reminder: Reminder) => void;
 }

@@ -17,11 +17,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { months, weekDays } from "@/constants/Dates";
 import { useCalendarContext } from "@/CalendarContext";
-import { dateToLongDateString } from "@/helpers/dateHelpers";
+import { dateToLongDateString, getFormattedTime } from "@/helpers/dateHelpers";
 import { observer } from "@legendapp/state/react";
 import { Calendar } from "@/components/Calendar";
 import { Link } from "expo-router";
 import { AnimatedButton } from "@/components/AnimatedButton";
+import { VStack } from "@/components/VStack";
+import { HStack } from "@/components/HStack";
+import { MenuView } from "@react-native-menu/menu";
 
 const HomeScreen = observer(() => {
   const calendarContext = useCalendarContext();
@@ -34,7 +37,7 @@ const HomeScreen = observer(() => {
 
   const onOpenModal = () => {
     isModalOpen.current = true;
-    modalHeight.value = withTiming(95);
+    modalHeight.value = withTiming(94);
     chevronRotation.value = withTiming(180);
   };
 
@@ -78,13 +81,35 @@ const HomeScreen = observer(() => {
             </Animated.View>
           </Pressable>
 
-          <Text style={{ color: "#CBB59E" }}>
+          <Text style={{ color: "#CBB59E", marginBottom: 10 }}>
             {dateToLongDateString(calendarContext.selectedDate.get())}
           </Text>
 
-          {calendarContext.selectedDateReminders.get().map((reminder) => (
-            <Text>{reminder.title}</Text>
-          ))}
+          {calendarContext.selectedDateReminders
+            .get()
+            .map((reminder, index) => (
+              <AnimatedButton key={`Reminder_${index}`}>
+                <MenuView
+                  actions={[{ title: "Delete" }]}
+                  onPressAction={(e) =>
+                    calendarContext.deleteReminder(reminder)
+                  }
+                  shouldOpenOnLongPress
+                >
+                  <HStack style={{ marginVertical: 10 }}>
+                    <Text style={{ flex: 3, fontWeight: "700" }}>
+                      {getFormattedTime(reminder.dateTime)}
+                    </Text>
+                    <VStack style={{ flex: 5 }}>
+                      <Text style={{ fontWeight: "700" }}>
+                        {reminder.title}
+                      </Text>
+                      <Text>{reminder.note}</Text>
+                    </VStack>
+                  </HStack>
+                </MenuView>
+              </AnimatedButton>
+            ))}
 
           <Link asChild href="/NewReminderScreen">
             <AnimatedButton
@@ -120,7 +145,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   modalContainer: {
     position: "absolute",
-    paddingTop: 8,
+    paddingTop: 3,
     paddingBottom: 8,
     paddingHorizontal: 16,
     width: "100%",
@@ -135,11 +160,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 10,
     shadowOpacity: 0.1,
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
   },
   stepContainer: {
     gap: 8,

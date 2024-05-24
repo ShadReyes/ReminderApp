@@ -12,20 +12,25 @@ export const Calendar = observer(() => {
   const calendarContext = useCalendarContext();
 
   return (
-    <View style={{ alignContent: "center" }}>
-      <HStack style={{ justifyContent: "center", alignItems: "center" }}>
+    <View style={{ alignContent: "center", marginHorizontal: 10 }}>
+      <HStack
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 5,
+        }}
+      >
         <Text
           style={{
             color: "white",
             fontWeight: "500",
             fontSize: 30,
-            textAlign: "center",
             marginRight: 10,
           }}
         >
           {months[calendarContext.selectedMonth.get()]}
         </Text>
-        <MenuView
+        {/* <MenuView
           actions={Array.from({ length: 50 }, (_, i) => i + 2000).map(
             (year) => {
               return { title: year.toString() };
@@ -40,7 +45,7 @@ export const Calendar = observer(() => {
             {calendarContext.selectedYear.get()}
           </Text>
           <Ionicons name="chevron-down" size={20} color="white" />
-        </MenuView>
+        </MenuView> */}
       </HStack>
       <HStack style={{ justifyContent: "space-between" }}>
         {weekDays.map((day, index) => (

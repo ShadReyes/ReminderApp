@@ -21,9 +21,31 @@ export class CalendarStorageService {
       return null;
     }
 
-    const array: Reminder[] = JSON.parse(jsonString);
+    //Dates are parsing as string, so we need to convert them back to Date.
+    const array: Reminder[] = JSON.parse(jsonString, (key, value) => {
+      return key == "dateTime" ? new Date(value) : value;
+    });
 
     return array;
+  }
+  public deleteReminder(oldReminder: Reminder): boolean {
+    const reminders: Reminder[] = this.getReminders(oldReminder.dateTime) ?? [];
+    const reminderToRemove = reminders.find((r) => r.id !== oldReminder.id);
+
+    if (!reminderToRemove) {
+      return false;
+    }
+    reminders.splice(reminders.indexOf(reminderToRemove), 1);
+
+    const jsonString = JSON.stringify(reminders);
+
+    calendarStorage.set(getDateStringKey(oldReminder.dateTime), jsonString);
+
+    return true;
+  }
+
+  public reset() {
+    calendarStorage.clearAll();
   }
 }
 

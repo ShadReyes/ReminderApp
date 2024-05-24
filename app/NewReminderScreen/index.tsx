@@ -1,10 +1,13 @@
 import { useCalendarContext } from "@/CalendarContext";
 import { AnimatedButton } from "@/components/AnimatedButton";
+import { HStack } from "@/components/HStack";
 import { LineDivider } from "@/components/LineDivider";
+import { MarginDivider } from "@/components/MarginDivider";
 import { dateToLongDateString } from "@/helpers/dateHelpers";
 import { IReminder } from "@/models/Reminder";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { Link, router } from "expo-router";
 import { useRef } from "react";
 import {
   ImageBackground,
@@ -17,15 +20,40 @@ import {
 const newReminderScreen = () => {
   const calendarContext = useCalendarContext();
 
+  console.log("New reminder screen");
+
   const formData = useRef<IReminder>({
     title: "",
     note: "",
-    dateTime: calendarContext.selectedDate.get(),
+    dateTime: new Date(
+      calendarContext.selectedDate.get().getFullYear(),
+      calendarContext.selectedDate.get().getMonth(),
+      calendarContext.selectedDate.get().getDate(),
+      new Date().getHours(),
+      new Date().getMinutes()
+    ),
   });
 
   const onSaveReminder = () => {
     console.log("Save reminder");
     calendarContext.saveReminder(formData.current);
+    router.back();
+  };
+
+  const setDate = (date: Date | undefined) => {
+    if (!date) return;
+
+    console.log("setDate", date);
+    formData.current.dateTime.setFullYear(date.getFullYear());
+    formData.current.dateTime.setMonth(date.getMonth());
+    formData.current.dateTime.setDate(date.getDate());
+  };
+
+  const setTime = (time: Date | undefined) => {
+    if (!time) return;
+    console.log("setTime", time);
+    formData.current.dateTime.setHours(time.getHours());
+    formData.current.dateTime.setMinutes(time.getMinutes());
   };
 
   return (
@@ -40,11 +68,56 @@ const newReminderScreen = () => {
             {dateToLongDateString(calendarContext.selectedDate.get())}
           </Text>
 
-          <Text>Title</Text>
+          <MarginDivider margin={20} />
+          <Text style={styles.inputTitle}>Title</Text>
+          <MarginDivider margin={10} />
           <TextInput
+            style={styles.inputTextStyle}
             onChange={(e) => (formData.current.title = e.nativeEvent.text)}
           />
-          <LineDivider color="black" />
+          <LineDivider opacity={0.2} color="grey" />
+          <MarginDivider margin={25} />
+          <Text style={styles.inputTitle}>Note</Text>
+          <MarginDivider margin={10} />
+          <TextInput
+            style={styles.inputTextStyle}
+            onChange={(e) => (formData.current.note = e.nativeEvent.text)}
+          />
+          <LineDivider opacity={0.2} color="grey" />
+          <MarginDivider margin={20} />
+          <HStack
+            style={{
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.inputTitle}>Date:</Text>
+            <RNDateTimePicker
+              style={{}}
+              mode="date"
+              value={calendarContext.selectedDate.peek()}
+              minuteInterval={5}
+              onChange={(event, date) =>
+                event.type.toString() === "set" ? setDate(date) : null
+              }
+            />
+          </HStack>
+          <MarginDivider margin={20} />
+          <HStack
+            style={{
+              alignItems: "center",
+            }}
+          >
+            <Text style={styles.inputTitle}>Time:</Text>
+            <RNDateTimePicker
+              style={{}}
+              mode="time"
+              value={new Date()}
+              minuteInterval={5}
+              onChange={(event, date) =>
+                event.type.toString() === "set" ? setTime(date) : null
+              }
+            />
+          </HStack>
 
           <AnimatedButton
             style={{
@@ -94,17 +167,16 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.1,
   },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
   backgroundImage: {
     flex: 1,
+  },
+  inputTitle: {
+    fontSize: 16,
+    color: "grey",
+  },
+  inputTextStyle: {
+    fontSize: 18,
+    color: "black",
   },
 });
 

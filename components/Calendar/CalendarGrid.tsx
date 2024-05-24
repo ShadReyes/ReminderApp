@@ -18,7 +18,7 @@ export const CalendarGrid = (props: ICalendarGridProps) => {
           <CalendarGridItem
             key={`prev-month-${day}`}
             value={props.prevMonthLastDay - (props.firstDayOfMonth - index - 1)}
-            textColor="gray"
+            textColor="#FFFFFF80"
             isSelected={false}
           />
         )

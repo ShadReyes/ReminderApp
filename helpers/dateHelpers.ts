@@ -11,3 +11,10 @@ export const dateToLongDateString = (date: Date): string => {
     day: "numeric",
   });
 };
+
+export const getFormattedTime = (date: Date): string => {
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+  });
+};

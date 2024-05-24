@@ -11,10 +11,11 @@ export const CalendarContextValue = (): ICalendarContextValue => {
 
   const calendarStorageService = new CalendarStorageService();
 
-  const selectedDateReminders = useObservable<Reminder[]>([]);
-
   const selectedDate = useObservable<Date>(
     new Date(selectedYear.peek(), selectedMonth.peek(), new Date().getDate())
+  );
+  const selectedDateReminders = useObservable<Reminder[]>(
+    calendarStorageService.getReminders(selectedDate.get()) ?? []
   );
 
   const currentFirstDay = computed(() =>
@@ -32,9 +33,35 @@ export const CalendarContextValue = (): ICalendarContextValue => {
     console.log("Save reminder");
     const newReminder = new Reminder(formData);
 
-    selectedDateReminders.push(newReminder);
+    //Don't want to push date to selected date unless it is the same date.
+    if (_doesDateMatchSelected(newReminder.dateTime)) {
+      selectedDateReminders.push(newReminder);
+    }
 
     calendarStorageService.saveReminder(newReminder);
+  };
+
+  const deleteReminder = (reminder: Reminder) => {
+    console.log("Delete reminder");
+    const success = calendarStorageService.deleteReminder(reminder);
+
+    if (!success) {
+      return;
+    }
+
+    const reminders = selectedDateReminders.peek();
+
+    reminders.splice(selectedDateReminders.indexOf(reminder), 1);
+
+    selectedDateReminders.set(reminders);
+  };
+
+  const _doesDateMatchSelected = (date: Date) => {
+    return (
+      date.getFullYear() === selectedDate.get().getFullYear() &&
+      date.getMonth() === selectedDate.get().getMonth() &&
+      date.getDate() === selectedDate.get().getDate()
+    );
   };
 
   return {
@@ -44,5 +71,6 @@ export const CalendarContextValue = (): ICalendarContextValue => {
     currentFirstDay,
     selectedDateReminders,
     saveReminder,
+    deleteReminder,
   };
 };
