@@ -22,9 +22,12 @@ export const CalendarContextValue = (): ICalendarContextValue => {
   );
 
   selectedDate.onChange(() => {
-    selectedDateReminders.set(
-      calendarStorageService.getReminders(selectedDate.get()) ?? []
-    );
+    const reminders = calendarStorageService.getReminders(selectedDate.get());
+    if (!reminders) {
+      return;
+    }
+    reminders.sort((a, b) => a.dateTime.getTime() - b.dateTime.getTime());
+    selectedDateReminders.set(reminders);
   });
 
   const saveReminder = (formData: IReminder) => {
